@@ -1,14 +1,25 @@
 <template>
   <div class="painel">
-    <h2 class="painel-titulo">{{ titulo }}</h2>
-    <!-- irá exibir o conteudo da imagem de quem chamou o componente -->
-    <slot class="painel-conteudo"></slot>
+    <h2 class="painel-titulo" v-on:dblclick="visivel = !visivel">
+      {{ titulo }}
+    </h2>
+    <transition name="painel-fade">
+      <div class="painel-conteudo" v-show="visivel">
+        <!-- irá exibir o conteudo da imagem de quem chamou o componente -->
+        <slot></slot>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["titulo"]
+  props: ["titulo"],
+  data() {
+    return {
+      visivel: true
+    };
+  }
 };
 </script>
 
@@ -36,7 +47,13 @@ export default {
   text-transform: uppercase;
 }
 
-.imagem-responsiva {
-  width: 100%;
+.painel-fade-enter,
+.painel-fade-leave-active {
+  opacity: 0;
+}
+
+.painel-fade-enter-active,
+.painel-fade-leave-active {
+  transition: opacity 1s;
 }
 </style>
